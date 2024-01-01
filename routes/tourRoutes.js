@@ -1,10 +1,21 @@
 const express = require('express');
 const tourController = require('../controllers/tourControllers');
 const authController = require('../controllers/authController');
-
 const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
+
+// POST /tour/123123123/review
+// GET /tour/123123123/review
+// GET /tour/123123123/review/123123
+
+// router
+//   .route('/:tourId/reviews')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('user'),
+//     reviewController.createReview,
+//   );
 
 // TOUR ROUTES
 
