@@ -71,6 +71,7 @@ exports.getAll = Model =>
       .paginate();
 
     const tours = await features.query;
+    // const tours = await features.query.explain();
 
     res.status(200).json({
       status: 'success',
