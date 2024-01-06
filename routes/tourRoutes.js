@@ -23,6 +23,8 @@ router
 // tours-within?distance=223&center=-40,45&unit=mi
 // tours-within?distance=223/center/-40,45/mi
 
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistance);
+
 router
   .route('/monthly-plan/:year')
   .get(
