@@ -15,8 +15,6 @@ router
 
 router.route('/tour-stats').get(tourController.getTourStats);
 
-router.use(authController.protect);
-
 router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(tourController.getToursWithin);
@@ -36,6 +34,7 @@ router
   .route('/')
   .get(tourController.getAllTours)
   .post(
+    authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     tourController.createTour,
   );
@@ -44,6 +43,7 @@ router
   .route('/:id')
   .get(tourController.getTour)
   .patch(
+    authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     tourController.updateTour,
   )
