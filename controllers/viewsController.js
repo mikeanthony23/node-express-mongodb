@@ -30,8 +30,6 @@ exports.getTour = catchAsync(async (req, res) => {
 });
 
 exports.getLoginForm = (req, res, next) => {
-  const { email, password } = req.body;
-  console.log(email, password);
   res.status(200).render('login', {
     title: 'Login to tour account',
   });

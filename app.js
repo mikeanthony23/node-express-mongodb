@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorControlller');
@@ -28,6 +29,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security http headers
 app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      baseUri: ["'self'"],
+      fontSrc: ["'self'", 'https:', 'data:'],
+      scriptSrc: [
+        "'self'",
+        'https://unpkg *',
+        '*',
+        'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+      ],
+      imgSrc: [
+        "'self'",
+        'https://unpkg *',
+        '*',
+        'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+      ],
+      objectSrc: ["'none'"],
+      styleSrc: ["'self'", 'https:', 'unsafe-inline'],
+      upgradeInsecureRequests: [],
+    },
+  }),
+);
 
 console.log(process.env.NODE_ENV);
 
@@ -44,11 +69,8 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Body parser, reading data from bodt intro req.body
-app.use(
-  express.json({
-    limit: '10kb',
-  }),
-);
+app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -74,6 +96,7 @@ app.use(
 app.use((req, res, next) => {
   // console.log(req.headers);
   req.requestTime = new Date().toISOString();
+  console.log(req.cookies);
   next();
 });
 
