@@ -582,17 +582,47 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _polyfill = require("@babel/polyfill");
 var _map = require("./map");
 var _login = require("./login");
-const loginForm = document.querySelector(".form");
+var _updateSettings = require("./updateSettings");
+const loginForm = document.querySelector(".form--login");
 const logOutBtn = document.querySelector(".nav__el--logout");
-if (loginForm) document.querySelector(".form").addEventListener("submit", (e)=>{
+const userDataForm = document.querySelector(".form-user-data");
+const userPasswordForm = document.querySelector(".form-user-password");
+if (loginForm) loginForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     (0, _login.login)(email, password);
 });
+if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const name = document.querySelector(".form-user-data #name").value;
+    const email = document.querySelector(".form-user-data #email").value;
+    (0, _updateSettings.updateSettings)({
+        name,
+        email
+    }, "data");
+});
+if (userPasswordForm) {
+    userPasswordForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        document.querySelector(".btn--save-password").textContent = "Updating...";
+        const passwordCurrent = document.querySelector("#password-current").value;
+        const password = document.querySelector("#password").value;
+        const passwordConfirm = document.querySelector("#password-confirm").value;
+        (0, _updateSettings.updateSettings)({
+            passwordCurrent,
+            password,
+            passwordConfirm
+        }, "password");
+    });
+    document.querySelector(".btn--save-password").textContent = "Save password";
+    document.querySelector("#password-current").value = "";
+    document.querySelector("#password").value = "";
+    document.querySelector("#password-confirm").value = "";
+}
 if (logOutBtn) logOutBtn.addEventListener("click", (0, _login.logout));
 
-},{"@babel/polyfill":"dTCHC","./map":"GDuAq","./login":"7yHem"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./map":"GDuAq","./login":"7yHem","./updateSettings":"l3cGY"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("f50de0aa433a589b");
 var _global = _interopRequireDefault(require("4142986752a079d4"));
@@ -18257,6 +18287,7 @@ const logout = async ()=>{
         });
         res.data.status = "success";
         location.reload(true);
+        location.href = "/";
     } catch (err) {
         (0, _alert.showAlert)("error", "Error logging out! Try again");
     }
@@ -22641,6 +22672,35 @@ const showAlert = (type, msg)=>{
     window.setTimeout(hideAlert, 5000);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["IKCBV","f2QDv"], "f2QDv", "parcelRequire7e89")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const updateSettings = async (data, type)=>{
+    // type is either 'passsword' or 'data'
+    try {
+        const url = type === "password" ? "http://127.0.0.1:3000/api/v1/users/updateMyPassword" : "http://127.0.0.1:3000/api/v1/users/updateMe";
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url,
+            data
+        });
+        if (res.data.status === "success") {
+            (0, _alert.showAlert)("success", `${type.toUpperCase()} update successfully`);
+            window.setTimeout(()=>{
+                location.assign("/me");
+            }, 1500);
+        }
+        console.log(res);
+    } catch (err) {
+        console.log(err.response);
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["IKCBV","f2QDv"], "f2QDv", "parcelRequire7e89")
 
 //# sourceMappingURL=index.js.map

@@ -19,6 +19,7 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   // 1) Create error if user POSTS passsword data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -29,7 +30,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Filter tour unwanted fields names athat are not allowed to be updated
+  // 2) Filter tour unwanted fields names that are not allowed to be updated
   const filteredBody = filterObj(req.body, 'name', 'email');
 
   // 3) Update user document
