@@ -20,9 +20,20 @@ if (loginForm) {
 if (userDataForm) {
   userDataForm.addEventListener('submit', e => {
     e.preventDefault();
-    const name = document.querySelector('.form-user-data #name').value;
-    const email = document.querySelector('.form-user-data #email').value;
-    updateSettings({ name, email }, 'data');
+    const form = new FormData();
+    form.append('name', document.querySelector('.form-user-data #name').value);
+    form.append(
+      'email',
+      document.querySelector('.form-user-data #email').value,
+    );
+    form.append(
+      'photo',
+      document.querySelector('.form-user-data #photo').files[0],
+    );
+
+    console.log(form);
+
+    updateSettings(form, 'data');
   });
 }
 
