@@ -29,8 +29,6 @@ exports.uploadTourImages = upload.fields([
 ]);
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-  // console.log(req.files);
-
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover image
@@ -56,7 +54,6 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
       req.body.images.push(filename);
     }),
   );
-  console.log(req.body);
   next();
 });
 
@@ -64,7 +61,6 @@ exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage';
   req.query.fields = 'name price difficulty ratingsAverage summary';
-  console.log(req.query);
   next();
 };
 

@@ -18280,7 +18280,6 @@ const login = async (email, password)=>{
                 location.assign("/");
             }, 1500);
         }
-        console.log(res);
     } catch (err) {
         console.log(err.response);
         (0, _alert.showAlert)("error", err.response.data.message);
@@ -22701,7 +22700,6 @@ const updateSettings = async (data, type)=>{
                 location.assign("/me");
             }, 1500);
         }
-        console.log(res);
     } catch (err) {
         console.log(err.response);
         (0, _alert.showAlert)("error", err.response.data.message);
@@ -22720,7 +22718,6 @@ const bookTour = async (tourId)=>{
     // 1) Get checkout session from API
     try {
         const session = await (0, _axiosDefault.default)(`http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}`);
-        console.log(session);
         // 2) Create checkout form + charge credit card
         await stripe.redirectToCheckout({
             sessionId: session.data.session.id

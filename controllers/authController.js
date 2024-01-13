@@ -48,7 +48,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
   await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
@@ -112,7 +111,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 4.) Check if user changed password after the token was issued
   if (currentUser.changePasswordAfter(decoded.iat)) {
-    console.log(currentUser);
     return next(
       new AppError('User recently changed password! Please login again', 401),
     );
@@ -179,7 +177,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 2.) Generate the random token
   const resetToken = user.createPasswordResetToken();
-  console.log({ resetToken });
   await user.save({ validateBeforeSave: false });
   // 3.) Send it to users email
 

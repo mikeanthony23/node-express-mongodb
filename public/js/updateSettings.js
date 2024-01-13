@@ -22,7 +22,6 @@ export const updateSettings = async (data, type) => {
         location.assign('/me');
       }, 1500);
     }
-    console.log(res);
   } catch (err) {
     console.log(err.response);
     showAlert('error', err.response.data.message);
