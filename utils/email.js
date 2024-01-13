@@ -12,13 +12,17 @@ module.exports = class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      // sendgrid
-      return 1;
+      return nodeMailer.createTransport({
+        host: 'gmail',
+        auth: {
+          user: '7302bc4eb44a55',
+          pass: 'deb5751a3434a9',
+        },
+      });
     }
 
     return nodeMailer.createTransport({
       host: 'sandbox.smtp.mailtrap.io',
-      port: 2525,
       auth: {
         user: '7302bc4eb44a55',
         pass: 'deb5751a3434a9',
@@ -50,5 +54,12 @@ module.exports = class Email {
 
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the Natours Family!');
+  }
+
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      'Your password reset token (valid for only 10 minutes)',
+    );
   }
 };
