@@ -36,7 +36,6 @@ app.use(
         '*',
         'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
         'https://js.stripe.com*',
-        'index.js',
       ],
       imgSrc: [
         "'self'",
