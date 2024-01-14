@@ -629,7 +629,7 @@ if (bookBtn) bookBtn.addEventListener("click", (e)=>{
     (0, _stripe.bookTour)(tourId);
 });
 const alertMessage = document.querySelector("body").dataset.alert;
-if (alert) (0, _alert.showAlert)("success", alertMessage);
+if (alertMessage) (0, _alert.showAlert)("success", alertMessage);
 
 },{"@babel/polyfill":"dTCHC","./map":"GDuAq","./login":"7yHem","./updateSettings":"l3cGY","./stripe":"10tSC","./alert":"kxdiQ"}],"dTCHC":[function(require,module,exports) {
 "use strict";
