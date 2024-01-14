@@ -41,8 +41,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 
   console.log('tour', session.client_reference_id);
-  console.log('user'.client_reference_id);
-  console.log('price'.session.line_items[0].price_data.unit_amount);
+  // console.log('user'.client_reference_id);
+  // console.log('price'.session.line_items[0].price_data.unit_amount);
 
   // 3) Create session as reponse
   res.status(200).json({
