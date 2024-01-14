@@ -601,7 +601,6 @@ if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
     form.append("name", document.querySelector(".form-user-data #name").value);
     form.append("email", document.querySelector(".form-user-data #email").value);
     form.append("photo", document.querySelector(".form-user-data #photo").files[0]);
-    console.log(form);
     (0, _updateSettings.updateSettings)(form, "data");
 });
 if (userPasswordForm) {

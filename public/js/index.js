@@ -33,8 +33,6 @@ if (userDataForm) {
       document.querySelector('.form-user-data #photo').files[0],
     );
 
-    console.log(form);
-
     updateSettings(form, 'data');
   });
 }
