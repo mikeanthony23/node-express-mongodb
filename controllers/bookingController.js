@@ -56,7 +56,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckout = async session => {
-  const tour = '5c88fa8cf4afda39709c2951';
+  const tour = session.client_reference_id;
   const user = '5c8a24402f8fb814b56fa190';
   const price = 490 / 100;
   // const tour = session.client_reference_id;
