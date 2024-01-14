@@ -11,7 +11,6 @@ exports.getCheckoutSession = () => {};
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
-  console.log(tour);
   // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -24,10 +23,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     client_reference_id: req.params.tourID,
     line_items: [
       {
-        price_data: {
+        price: {
           unit_amount: tour.price * 100,
           currency: 'usd',
-          product_data: {
+          product: {
             name: `${tour.name} Tour`,
             images: [
               `${req.protocol}://${req.get('host')}/img/tours/${
