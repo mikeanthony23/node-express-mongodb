@@ -2,13 +2,10 @@
   "name": "starter",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "main.js",
   "targets": {
-    "default": {
-      "distDir": "./public/js/bundled.js"
-    },
     "build": {
-      "distDir": "./public/js/bundled.js"
+      "distDir": "./public/js/dist/"
     }
   },
   "scripts": {
@@ -16,7 +13,7 @@
     "start:prod": "SET NODE_ENV=production && nodemon server.js",
     "debug": "ndb server.js",
     "watch:js": "parcel ./public/js/index.js --dist-dir ./public/js/dist",
-    "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js/dist"
+    "build:js": "parcel build ./public/js/index.js"
   },
   "author": "",
   "license": "ISC",
