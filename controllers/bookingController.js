@@ -40,7 +40,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     mode: 'payment',
   });
 
-  console.log('tour', session.client_reference_id);
+  console.log('tour', session);
   // console.log('user'.client_reference_id);
   // console.log('price'.session.line_items[0].price_data.unit_amount);
 
