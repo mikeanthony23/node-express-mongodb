@@ -40,10 +40,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     mode: 'payment',
   });
 
-  console.log('tour', session);
-  // console.log('user'.client_reference_id);
-  // console.log('price'.session.line_items[0].price_data.unit_amount);
-
   // 3) Create session as reponse
   res.status(200).json({
     status: 'success',
