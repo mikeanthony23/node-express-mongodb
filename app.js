@@ -8,6 +8,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
+
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorControlller');
 const tourRouter = require('./routes/tourRoutes');
@@ -29,6 +31,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security http headers
 app.use(helmet());
+
+// Implement CORS
+// Access-Control-Allow-Origin *
+// app.use(
+//   cors({
+//     origin: 'https://mike-natours-app.up.railway.app',
+//   }),
+// );
+
+app.use(cors());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -55,6 +67,7 @@ app.use(
     },
   }),
 );
+app.options('*', cors());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
