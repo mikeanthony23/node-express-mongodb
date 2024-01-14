@@ -7,44 +7,48 @@ const factory = require('../controllers/handlerFactory');
 const AppError = require('../utils/appError');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  // 1) Get the currently booked tour
-  const tour = await Tour.findById(req.params.tourId);
-  // 2) Create checkout session
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    // success_url: `${req.protocol}://${req.get('host')}/?tour=${
-    //   req.params.tourId
-    // }&user=${req.user.id}&price=${tour.price}`,
-    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
-    cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
-    customer_email: req.user.email,
-    client_reference_id: tour.id,
-    line_items: [
-      {
-        price_data: {
-          unit_amount: tour.price * 100,
-          currency: 'usd',
-          product_data: {
-            name: `${tour.name} Tour`,
-            images: [
-              `${req.protocol}://${req.get('host')}/img/tours/${
-                tour.imageCover
-              }`,
-            ],
-            description: tour.summary,
+  try {
+    // 1) Get the currently booked tour
+    const tour = await Tour.findById(req.params.tourId);
+    // 2) Create checkout session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      // success_url: `${req.protocol}://${req.get('host')}/?tour=${
+      //   req.params.tourId
+      // }&user=${req.user.id}&price=${tour.price}`,
+      success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+      cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
+      customer_email: req.user.email,
+      client_reference_id: tour.id,
+      line_items: [
+        {
+          price_data: {
+            unit_amount: tour.price * 100,
+            currency: 'usd',
+            product_data: {
+              name: `${tour.name} Tour`,
+              images: [
+                `${req.protocol}://${req.get('host')}/img/tours/${
+                  tour.imageCover
+                }`,
+              ],
+              description: tour.summary,
+            },
           },
+          quantity: 1,
         },
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-  });
+      ],
+      mode: 'payment',
+    });
 
-  // 3) Create session as reponse
-  res.status(200).json({
-    status: 'success',
-    session,
-  });
+    // 3) Create session as reponse
+    res.status(200).json({
+      status: 'success',
+      session,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // exports.createBookingCheckout = catchAsync(async (req, res, next) => {
